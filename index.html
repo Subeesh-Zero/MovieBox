@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoviesBox - Premium App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-main: #0b0f17;       
+            --bg-card: #141a26;       
+            --accent-green: #00e676;  
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --nav-bg: rgba(11, 15, 23, 0.85);
+            --border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .nav-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+        }
+
+        .nav-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .nav-btn {
+            padding: 6px 14px;
+            background: transparent;
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-green);
+            color: #000;
+        }
+
+        /* Compact Header Section (Left Aligned) */
+        header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 85px 20px 25px; 
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .app-icon {
+            width: 75px;
+            height: 75px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        /* Screenshots Section */
+        .screenshots-section {
+            padding: 10px 0 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding: 0 20px;
+            color: var(--text-primary);
+        }
+
+        .slider-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 0 20px 15px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; 
+        }
+        
+        .slider-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .slider-container img {
+            height: 320px;
+            border-radius: 14px;
+            cursor: pointer;
+            scroll-snap-align: center;
+            border: 1px solid var(--border-color);
+            transition: 0.3s;
+        }
+
+        /* Stats Grid */
+        .stats-section {
+            max-width: 850px;
+            margin: 0 auto 20px;
+            padding: 0 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 16px 10px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 20px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .stat-title {
+            color: var(--text-secondary);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Main Download Button & Install Guide */
+        .download-action-area {
+            text-align: center;
+            padding: 20px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px; /* Gap between download button and install text */
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 0;
+            background: var(--accent-green);
+            color: #000000;
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .download-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* New Install Guide Link Style */
+        .install-guide-btn {
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-decoration: none;
+            border-bottom: 1px dashed var(--text-secondary);
+            padding-bottom: 2px;
+            transition: color 0.3s, border-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .install-guide-btn:hover {
+            color: var(--accent-green);
+            border-bottom-color: var(--accent-green);
+        }
+
+        /* Fullscreen Lightbox */
+        .lightbox {
+            display: none; 
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 7, 11, 0.98);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content {
+            max-height: 85%;
+            max-width: 90%;
+            border-radius: 12px;
+            animation: zoomIn 0.2s ease-out;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: var(--text-secondary);
+            font-size: 35px;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            header {
+                justify-content: center;
+                text-align: center;
+                flex-direction: column;
+                padding-top: 100px;
+            }
+            .header-text {
+                align-items: center;
+            }
+            .app-icon {
+                width: 100px;
+                height: 100px;
+            }
+            header h1 { font-size: 32px; }
+            header p { font-size: 15px; max-width: 500px; }
+            .slider-container img { height: 420px; }
+            .section-title { text-align: center; font-size: 20px; margin-bottom: 25px; }
+            .download-btn { width: 100%; padding: 15px 40px; border-radius: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo-area">
+            <img src="https://img.utdstc.com/icon/5d7/977/5d797714845d573c982acd8a35cf084a7c0c1d96847011ae561b3db763d6a4f0:200" alt="Logo" class="nav-logo">
+            <span class="nav-title">MoviesBox</span>
+        </div>
+        <a href="#download" class="nav-btn">Get App</a>
+    </nav>
+
+    <header>
+        <img src="https://img.utdstc.com/icon/5d7/977/5d797714845d573c982acd8a35cf084a7c0c1d96847011ae561b3db763d6a4f0:200" alt="App Icon" class="app-icon">
+        <div class="header-text">
+            <h1>MoviesBox Pro</h1>
+            <p>All premium features are free. Cracked by Subeesh 👑</p>
+        </div>
+    </header>
+
+    <section class="screenshots-section">
+        <h2 class="section-title">App Screenshots</h2>
+        <div class="slider-container" id="slider">
+            <img src="https://i.ibb.co/Kp8jbKz6/Screenshot-20260618-020334.jpg" alt="Screenshot 1" onclick="openLightbox(0)">
+            <img src="https://i.ibb.co/m53wxrch/Screenshot-20260618-020316.jpg" alt="Screenshot 2" onclick="openLightbox(1)">
+            <img src="https://i.ibb.co/F4G57hy0/Picsart-26-06-18-02-02-07-744.jpg" alt="Screenshot 3" onclick="openLightbox(2)">
+            <img src="https://i.ibb.co/qLLfcPKk/Picsart-26-06-18-02-07-53-801.jpg" alt="Screenshot 4" onclick="openLightbox(3)">
+            <img src="https://i.ibb.co/B2mwRFZd/Picsart-26-06-18-01-50-03-405.jpg" alt="Screenshot 5" onclick="openLightbox(4)">
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-icon">📥</span>
+                <div class="stat-title">Downloads</div>
+                <div class="stat-value">100+</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">⚙️</span>
+                <div class="stat-title">Version</div>
+                <div class="stat-value">999+</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">📦</span>
+                <div class="stat-title">Size</div>
+                <div class="stat-value">56 MB</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="download-action-area" id="download">
+        <a href="https://www.dropbox.com/scl/fi/kk9x7fyal7ose5cmah7os/MovieBox-Mod.apk?rlkey=miximsxa40tq43xjvwwo90xnb&st=y6ys5efv&dl=1
+" class="download-btn">Download</a>
+        
+        <a href="#" class="install-guide-btn">❓ How to Install</a>
+    </div>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+
+    <script>
+        let currentImageIndex = 0;
+        const images = document.querySelectorAll('.slider-container img');
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+
+        function openLightbox(index) {
+            lightbox.style.display = "flex";
+            currentImageIndex = index;
+            lightboxImg.src = images[currentImageIndex].src;
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = "none";
+        }
+
+        // Click on lightbox image to go to next image
+        lightboxImg.addEventListener('click', function() {
+            currentImageIndex++;
+            if (currentImageIndex >= images.length) currentImageIndex = 0;
+            lightboxImg.src = images[currentImageIndex].src;
+        });
+    </script>
+
+</body>
+</html>
