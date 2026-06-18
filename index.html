@@ -85,7 +85,7 @@
             color: #000;
         }
 
-        /* Compact Header Section (Left Aligned) */
+        /* Compact Header Section */
         header {
             display: flex;
             align-items: center;
@@ -208,7 +208,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px; /* Gap between download button and install text */
+            gap: 12px; 
         }
 
         .download-btn {
@@ -229,7 +229,6 @@
             transform: scale(0.98);
         }
 
-        /* New Install Guide Link Style */
         .install-guide-btn {
             color: var(--text-secondary);
             font-size: 13px;
@@ -240,6 +239,7 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
+            cursor: pointer;
         }
 
         .install-guide-btn:hover {
@@ -247,7 +247,7 @@
             border-bottom-color: var(--accent-green);
         }
 
-        /* Fullscreen Lightbox */
+        /* Lightbox (Both Image and Video) */
         .lightbox {
             display: none; 
             position: fixed;
@@ -266,6 +266,14 @@
             max-width: 90%;
             border-radius: 12px;
             animation: zoomIn 0.2s ease-out;
+            outline: none;
+        }
+
+        /* Specific style for video to limit width */
+        .video-content {
+            width: 100%;
+            max-width: 800px;
+            background-color: #000;
         }
 
         @keyframes zoomIn {
@@ -280,6 +288,11 @@
             color: var(--text-secondary);
             font-size: 35px;
             cursor: pointer;
+            z-index: 1001;
+        }
+
+        .close-btn:hover {
+            color: #fff;
         }
 
         @media (min-width: 768px) {
@@ -325,11 +338,11 @@
     <section class="screenshots-section">
         <h2 class="section-title">App Screenshots</h2>
         <div class="slider-container" id="slider">
-            <img src="https://i.ibb.co/Kp8jbKz6/Screenshot-20260618-020334.jpg" alt="Screenshot 1" onclick="openLightbox(0)">
-            <img src="https://i.ibb.co/m53wxrch/Screenshot-20260618-020316.jpg" alt="Screenshot 2" onclick="openLightbox(1)">
-            <img src="https://i.ibb.co/F4G57hy0/Picsart-26-06-18-02-02-07-744.jpg" alt="Screenshot 3" onclick="openLightbox(2)">
-            <img src="https://i.ibb.co/qLLfcPKk/Picsart-26-06-18-02-07-53-801.jpg" alt="Screenshot 4" onclick="openLightbox(3)">
-            <img src="https://i.ibb.co/B2mwRFZd/Picsart-26-06-18-01-50-03-405.jpg" alt="Screenshot 5" onclick="openLightbox(4)">
+            <img src="https://i.ibb.co/Kp8jbKz6/Screenshot-20260618-020334.jpg" alt="Screenshot 1" onclick="openImageLightbox(0)">
+            <img src="https://i.ibb.co/m53wxrch/Screenshot-20260618-020316.jpg" alt="Screenshot 2" onclick="openImageLightbox(1)">
+            <img src="https://i.ibb.co/F4G57hy0/Picsart-26-06-18-02-02-07-744.jpg" alt="Screenshot 3" onclick="openImageLightbox(2)">
+            <img src="https://i.ibb.co/qLLfcPKk/Picsart-26-06-18-02-07-53-801.jpg" alt="Screenshot 4" onclick="openImageLightbox(3)">
+            <img src="https://i.ibb.co/B2mwRFZd/Picsart-26-06-18-01-50-03-405.jpg" alt="Screenshot 5" onclick="openImageLightbox(4)">
         </div>
     </section>
 
@@ -354,32 +367,44 @@
     </section>
 
     <div class="download-action-area" id="download">
-        <a href="https://www.dropbox.com/scl/fi/kk9x7fyal7ose5cmah7os/MovieBox-Mod.apk?rlkey=miximsxa40tq43xjvwwo90xnb&st=y6ys5efv&dl=1
-" class="download-btn">Download</a>
+        <a href="https://www.dropbox.com/scl/fi/kk9x7fyal7ose5cmah7os/MovieBox-Mod.apk?rlkey=miximsxa40tq43xjvwwo90xnb&st=y6ys5efv&dl=1" class="download-btn">Download</a>
         
-        <a href="https://www.dropbox.com/scl/fi/fx68tqesrxa635kf0952u/InShot_20260618_024130804.mp4?rlkey=xcx3fbac5jau94wm3v7j8znir&raw=1
-" class="install-guide-btn">❓ How to Install</a>
+        <a onclick="openVideoLightbox(event)" class="install-guide-btn">❓ How to Install</a>
     </div>
 
-    <div id="lightbox" class="lightbox">
-        <span class="close-btn" onclick="closeLightbox()">&times;</span>
+    <div id="image-lightbox" class="lightbox">
+        <span class="close-btn" onclick="closeImageLightbox()">&times;</span>
         <img class="lightbox-content" id="lightbox-img">
+    </div>
+
+    <div id="video-lightbox" class="lightbox">
+        <span class="close-btn" onclick="closeVideoLightbox()">&times;</span>
+        <video id="lightbox-video" class="lightbox-content video-content" controls>
+            <source src="https://www.dropbox.com/scl/fi/fx68tqesrxa635kf0952u/InShot_20260618_024130804.mp4?rlkey=xcx3fbac5jau94wm3v7j8znir&raw=1" type="video/mp4">
+        </video>
     </div>
 
     <script>
         let currentImageIndex = 0;
         const images = document.querySelectorAll('.slider-container img');
-        const lightbox = document.getElementById("lightbox");
+        
+        // Image Lightbox Elements
+        const imageLightbox = document.getElementById("image-lightbox");
         const lightboxImg = document.getElementById("lightbox-img");
+        
+        // Video Lightbox Elements
+        const videoLightbox = document.getElementById("video-lightbox");
+        const lightboxVideo = document.getElementById("lightbox-video");
 
-        function openLightbox(index) {
-            lightbox.style.display = "flex";
+        // --- Image Gallery Functions ---
+        function openImageLightbox(index) {
+            imageLightbox.style.display = "flex";
             currentImageIndex = index;
             lightboxImg.src = images[currentImageIndex].src;
         }
 
-        function closeLightbox() {
-            lightbox.style.display = "none";
+        function closeImageLightbox() {
+            imageLightbox.style.display = "none";
         }
 
         // Click on lightbox image to go to next image
@@ -387,6 +412,31 @@
             currentImageIndex++;
             if (currentImageIndex >= images.length) currentImageIndex = 0;
             lightboxImg.src = images[currentImageIndex].src;
+        });
+
+        // --- Video Popup Functions ---
+        function openVideoLightbox(event) {
+            event.preventDefault(); // Prevent default link behavior
+            videoLightbox.style.display = "flex";
+            lightboxVideo.play(); // Auto-play video when popup opens
+        }
+
+        function closeVideoLightbox() {
+            videoLightbox.style.display = "none";
+            lightboxVideo.pause(); // Pause the video
+            lightboxVideo.currentTime = 0; // Reset video to start
+        }
+
+        // Close on Escape Key (Both Lightboxes)
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                if (imageLightbox.style.display === "flex") {
+                    closeImageLightbox();
+                }
+                if (videoLightbox.style.display === "flex") {
+                    closeVideoLightbox();
+                }
+            }
         });
     </script>
 
